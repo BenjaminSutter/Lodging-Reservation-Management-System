@@ -10,38 +10,64 @@ import java.util.Date;
 
 public class RentalCarReservation extends Reservation {
 
-  public String make;
+    public String make;
 
-  public String model;
+    public String model;
 
-  public int year;
+    public int year;
 
-  public Date scheduledPickUp;
+    public Date scheduledPickUp;
 
-  public Date scheduledDropOff;
+    public Date scheduledDropOff;
 
-  public Date actualPickUp;
+    public Date actualPickUp;
 
-  public Date actualDropOff;
+    public Date actualDropOff;
 
-  public float window;
+    public float window;
+  
+    // Construct a RentalCarReservation object and validate the integrity of the parameters
+    public RentalCarReservation(String conNum, String phoneNum, String make, String mod, 
+            int year, Date sPickup, Date sDropOff, Date aPickup, Date aDropOff, float wind) {
+        super(conNum, phoneNum);
 
-  public void updateRentalCarReservation(String mak, String mod, int year, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
-  }
+        this.make = make;
+        this.model = mod;
+        this.year = year;
+        this.scheduledPickUp = sPickup;
+        this.scheduledDropOff = sDropOff;
+        this.actualPickUp = aPickup;
+        this.actualDropOff = aDropOff;
+        this.window = wind;
+    }
 
-  public String toString() {
-    return null;
-  }
+    // update reservation data using passed in parameters
+    public void updateRentalCarReservation(String mak, String mod, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
+        /*
+         * Validate parameters 
+         * Assign parameters's values to attributes
+         */
+    }
 
-  public float calculatePrice() {
-    return 0.0f;
-  }
+    // Returns an XML formatted String representation of the object
+    public String toString() {
+        // return "<rentalcar>" + super.toString() + "<make>" + make + ... "</rentalcar>";
+        return null;
+    }
 
-  public RentalCarReservation clone() {
-    return null;
-  }
+    //calculate and return the reservation's price
+    public float calculatePrice() {
+        /*
+         * calculate number of days
+         * return days * 23
+         */
+        return 0.0f;
+    }
 
-  public void newOperation() {
-  }
+    // Instantiate a copy of the current object and return it
+    public RentalCarReservation clone() {
+        return new RentalCarReservation(this.confirmationNumber, this.contractPhoneNumber, this.make, 
+                this.model, this.year, this.scheduledPickUp, this.scheduledDropOff, this.actualPickUp, this.actualDropOff, this.window);
+    }
 
 }

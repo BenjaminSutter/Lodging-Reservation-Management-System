@@ -6,23 +6,35 @@
  * Heavily based off of example skeleton code provided.
  */
 
-import java.util.Vector;
 import java.util.Date;
 
 public class Person {
 
-  public Date dateOfBirth;
+    public String firstName;
 
-  public String lastName;
+    public String lastName;
 
-  public String firstName;
+    public Date dateOfBirth; // Used to help verify age
 
-  public String toString() {
-    return null;
-  }
+    // Construct a Person object and validate the integrity of the parameters
+    public Person(String firstName, String lastName, Date dateOfBirth) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+    }
 
-  public Person clone() {
-    return null;
-  }
+    // Returns an XML formatted String representation of the object
+    public String toString() {
+        //return "<person>" + "<firstName>" + firstName + "</firstName>" + 
+        //       "<lastName>" + lastName + "</lastName>" + 
+        //       "<dateOfBirth>" + dateOfBirth + "</dateOfBirth>" + + "</person>";
+        return null;
+    }
+
+    // Instantiate a copy of the current object and return it
+    public Person clone() {
+       //return new Person(this.firstName, this.lastName, this.dateOfBirth);
+       return null;
+    }
 
 }

@@ -6,24 +6,28 @@
  * Heavily based off of example skeleton code provided.
  */
 
-import java.util.Vector;
+public abstract class Reservation {
 
-public class Reservation {
+    public String confirmationNumber;
 
-  public String confirmationNumber;
+    public String contractPhoneNumber;
 
-  public String contractPhoneNumber;
+    // Construct a Reservation object and validate the integrity of the parameters
+    public Reservation(String conNum, String phoneNum) {
+    }
 
-  public float calculatePrice() {
-    return 0.0f;
-  }
+    // Calculate the price of the reservation
+    public float calculatePrice() {
+        return 0.0f;
+    }
 
-  public String toString() {
-     return "";
-  }
+    // Returns an XML formatted String representation of the object
+    public String toString() {
+        //return  "<confirmationNum>" + ... "</contactNum>" ;  
+         return null;
+    }
 
-  public Reservation clone() {
-     return null;
-  }
+    // Instantiate a copy of the current object and return it
+    public abstract Reservation clone();
 
 }

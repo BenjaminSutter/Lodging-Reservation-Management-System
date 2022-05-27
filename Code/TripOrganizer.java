@@ -10,30 +10,66 @@ import java.util.Vector;
 
 public class TripOrganizer {
 
-  public Trip trip;
+    public Trip trip; // store and manage a single Trip object at a time
 
-  public void addReservation(Reservation reservation) {
-  }
+      // Construct a TripOrganizer object
+    public TripOrganizer() {
+    }
 
-  public void saveToFile(String filename) {
-  }
+    // Add reservation to the currently loaded Trip
+    public void addReservation(Reservation reservation) {
+        /*
+         * validate there is a trip open otherwise fail
+         * can trip.addReservation(reservation);
+         */
+    }
 
-  public void openFromFile(String filename) {
-  }
+    // save current Trip data to a file  
+    public void saveToFile(String filename) {
+        /*
+         * validate trip is loaded
+         * call trip.saveToFile(fileName);
+         */
+    }
 
-  public void editReservation(Reservation reservation) {
-  }
+    // load a Trip object from a file
+    public void openFromFile(String filename) {
+        /*
+         * trip = new Trip(fileName);
+         */
+    }
 
-  public void deleteReservation(String confirmationNumber) {
-  }
+    // update the currently loaded Trip's reservation (one that matches the parameter)
+    public void editReservation(Reservation reservation) {
+        /*
+         * validate trip is loaded
+         * trip.updateReservation(reservation);
+         */
+    }
 
-  public void deleteTrip(String fileName) {
-  }
+    // delete reservation matching conf number from currently loaded trip
+    public void deleteReservation(String confirmationNumber) {
+        /*
+         * validate trip[ is loaded
+         * trip.deleteReservation(confirmationNumber);
+         */
+    }
 
-  public void createNewTrip(Trip trip) {
-  }
+    // delete the currently loaded Trip and its file (value smust match)
+    public void deleteTrip(String fileName) {
+        /*
+         * validate trip exists
+         * validate file exists
+         * delete file
+         * make trip=null
+         */
+    }
 
-  public void InitializeUI() {
-  }
-
+    // load new Trip from the passed in object (close the currently loaded Trip)
+    public void createNewTrip(Trip trip) {
+        /*
+         * validate trip parameter
+         * assign parameter to attribute
+         */
+    }
 }
