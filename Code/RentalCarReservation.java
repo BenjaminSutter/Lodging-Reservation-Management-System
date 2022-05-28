@@ -1,7 +1,7 @@
 /*
  * File: RentalCarReservation.java
  * Author: Ben Sutter
- * Date: May 22nd, 2021
+ * Date: May 28th, 2021
  * Purpose: Extend the reservation class to add ability to book a car reservation
  * Heavily based off of example skeleton code provided.
  */
@@ -10,21 +10,21 @@ import java.util.Date;
 
 public class RentalCarReservation extends Reservation {
 
-    public String make;
+    private String make;
 
-    public String model;
+    private String model;
 
-    public int year;
+    private int year;
 
-    public Date scheduledPickUp;
+    private Date scheduledPickUp;
 
-    public Date scheduledDropOff;
+    private Date scheduledDropOff;
 
-    public Date actualPickUp;
+    private Date actualPickUp;
 
-    public Date actualDropOff;
+    private Date actualDropOff;
 
-    public float window;
+    private float window;
   
     // Construct a RentalCarReservation object and validate the integrity of the parameters
     public RentalCarReservation(String conNum, String phoneNum, String make, String mod, 
@@ -41,12 +41,49 @@ public class RentalCarReservation extends Reservation {
         this.window = wind;
     }
 
+    // Construct a RentalCarReservation object from a string representation
+    public RentalCarReservation(String line) {
+        super(line);
+    }
+    
     // update reservation data using passed in parameters
     public void updateRentalCarReservation(String mak, String mod, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
         /*
          * Validate parameters 
          * Assign parameters's values to attributes
          */
+    }
+
+    public String getMake() {
+        return make;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public Date getScheduledPickUp() {
+        return scheduledPickUp;
+    }
+
+    public Date getScheduledDropOff() {
+        return scheduledDropOff;
+    }
+
+    public Date getActualPickup() {
+        return actualPickUp;
+    }
+
+    public Date getActualDropOff() {
+        return actualDropOff;
+    }
+
+    public float getWindows() {
+        return window;
     }
 
     // Returns an XML formatted String representation of the object
@@ -68,6 +105,11 @@ public class RentalCarReservation extends Reservation {
     public RentalCarReservation clone() {
         return new RentalCarReservation(this.confirmationNumber, this.contractPhoneNumber, this.make, 
                 this.model, this.year, this.scheduledPickUp, this.scheduledDropOff, this.actualPickUp, this.actualDropOff, this.window);
+    }
+    
+    // Instantiate a copy of a RentalCarReservation object from a string representation
+    public RentalCarReservation clone(String line) {
+        return new RentalCarReservation(line);
     }
 
 }

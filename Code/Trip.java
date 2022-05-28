@@ -1,7 +1,7 @@
 /*
  * File: Trip.java
  * Author: Ben Sutter
- * Date: May 22nd, 2021
+ * Date: May 28th, 2021
  * Purpose: The trip object is what connects all of the classes together and allow a user to book a trip (vaction/business/etc)
  * Heavily based off of example skeleton code provided.
  */
@@ -11,15 +11,15 @@ import java.util.Date;
 
 public class Trip {
 
-    public Vector <Reservation> reservations;
+    private Vector <Reservation> reservations;
 
-    public Person organizer;
+    private Person organizer;
 
-    public String theme;
+    private String theme;
 
-    public Date startDate;
+    private Date startDate;
 
-    public Date endDate;
+    private Date endDate;
 
       // Construct a Trip object and validate the integrity of the parameters
     public Trip(Vector <Reservation>  reservations, Person person, String theme, Date startDate, Date endDate) {
@@ -29,7 +29,16 @@ public class Trip {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+    
+    // Create a trip object from the XML representation stored in a file
+    public Trip(String fileName) {
+        // Make sure file is valid
+    }
 
+    public Vector  <Reservation> getReservations() {
+        return reservations;
+    }
+    
     // find matching reservation in Vector list and update it with parameter's value
     public void updateReservation(Reservation reservation) {
         /*
@@ -38,6 +47,50 @@ public class Trip {
          * if found, replace with clone object in reservations list
          * otherwise if not found, fail
          */
+    }
+
+    public Person getOrganizer() {
+        return organizer;
+    }
+
+    public void setOrganizer(Person organizer) {
+        this.organizer = organizer;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    // add reservation object to the Vector of Reservation objects (check for duplicates)
+    // and return the number of reservation
+    public Integer addReservation(Reservation reservation) {
+        /*
+         * validate parameters
+         * check if reservation (based on it)already exists and if so fail
+         * add reservation clone to reservations
+         * return number of reservations
+         */
+        return null;
     }
 
     // find Reservation in Vector that matches conf number and delete from Vector

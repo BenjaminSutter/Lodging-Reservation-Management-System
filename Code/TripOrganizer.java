@@ -1,19 +1,21 @@
 /*
  * File: TripOrganizer.java
  * Author: Ben Sutter
- * Date: May 22nd, 2021
+ * Date: May 28th, 2021
  * Purpose: UI to help organize a trip
  * Heavily based off of example skeleton code provided.
  */
 
-import java.util.Vector;
-
 public class TripOrganizer {
 
-    public Trip trip; // store and manage a single Trip object at a time
+    private Trip trip; // store and manage a single Trip object at a time
 
       // Construct a TripOrganizer object
     public TripOrganizer() {
+    }
+    
+    public Trip getTrip(){
+        return trip;
     }
 
     // Add reservation to the currently loaded Trip

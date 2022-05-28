@@ -1,7 +1,7 @@
 /*
  * File: AirplaneReservation.java
  * Author: Ben Sutter
- * Date: May 22nd, 2021
+ * Date: May 28th, 2021
  * Purpose: Extend the reservation class to add ability to book an airplane reservation
  * Heavily based off of example skeleton code provided.
  */
@@ -11,17 +11,17 @@ import java.util.Date;
 
 public class AirplaneReservation extends Reservation {
 
-    public String airline;
+    private String airline;
 
-    public String sourceAirport;
+    private String sourceAirport;
 
-    public String destinationAirport;
+    private String destinationAirport;
 
-    public Date flightDate;
+    private Date flightDate;
 
-    public LocalTime departureTime;
+    private LocalTime departureTime;
 
-    public LocalTime boardingTime;
+    private LocalTime boardingTime;
 
     // Construct an AirplaneReservation object and validate the integrity of the parameters
     public AirplaneReservation(String conNum, String phoneNum, String aline, String sAirport, 
@@ -35,15 +35,12 @@ public class AirplaneReservation extends Reservation {
         this.departureTime = dTime;
         this.boardingTime = bTime;
     }
-
-    // Returns an XML formatted String representation of the object
-    public String toString() {
-        /*
-         * return "<airplane>" +  super.toString() + "<airline>" + airline + ... + "</airplane>";  
-         */
-        return null;
+    
+    // Construct an AirplaneReservation object from a string representation
+    public AirplaneReservation(String line) {
+        super(line);
     }
-
+    
     // Update reservation data using passed in parameters
     public void updateAirplaneReservation(String aline, String sAirport, String dAirport, Date fDate) {
         /*
@@ -51,6 +48,38 @@ public class AirplaneReservation extends Reservation {
          * validate that source and destination are not the same
          * Assign parameters's values to attributes
          */
+    }
+
+    public String getAirline() {
+        return airline;
+    }
+
+    public String getSourceAirport() {
+        return sourceAirport;
+    }
+
+    public String getDestinationAirport() {
+        return destinationAirport;
+    }
+
+    public Date getFlightDate() {
+        return flightDate;
+    }
+
+    public LocalTime getDepartureTime() {
+        return departureTime;
+    }
+
+    public LocalTime getBoardingTime() {
+        return boardingTime;
+    }
+
+    // Returns an XML formatted String representation of the object
+    public String toString() {
+        /*
+         * return "<airplane>" +  super.toString() + "<airline>" + airline + ... + "</airplane>";  
+         */
+        return null;
     }
 
     // calculate and return the distance between source and destination airport
@@ -74,6 +103,11 @@ public class AirplaneReservation extends Reservation {
     public AirplaneReservation clone() {
         return new AirplaneReservation(this.confirmationNumber, this.contractPhoneNumber, this.airline, 
                 this.sourceAirport, this.destinationAirport, this.flightDate, this.departureTime, this.boardingTime);
+    }
+    
+    // Instantiate a copy of an AirplaneReservation object from a string representation
+    public AirplaneReservation clone(String line) {
+        return new AirplaneReservation(line);
     }
 
 }
