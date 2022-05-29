@@ -11,9 +11,14 @@ public abstract class Reservation {
     protected String confirmationNumber;
 
     protected String contractPhoneNumber;
+    
+    protected String reservationNumber; // Will be an automatically generated UUID, so no need to set it anywhere
 
     // Construct a Reservation object and validate the integrity of the parameters
     public Reservation(String conNum, String phoneNum) {
+        this.confirmationNumber = conNum;
+        this.contractPhoneNumber = phoneNum;
+        // Generate a UUID for reservation number
     }
     
     // Construct a Reservation object from a string representation
@@ -30,6 +35,10 @@ public abstract class Reservation {
 
     public void setPhoneNumber(String phoneNum) {
         this.confirmationNumber = phoneNum;
+    }
+    
+    public String getReservationNumber() {
+        return reservationNumber;
     }
 
     // Calculate the price of the reservation
