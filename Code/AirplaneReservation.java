@@ -42,7 +42,7 @@ public class AirplaneReservation extends Reservation {
     }
     
     // Update reservation data using passed in parameters
-    public void updateAirplaneReservation(String aline, String sAirport, String dAirport, Date fDate) {
+    public void updateAirplaneReservation(String aline, String sAirport, String dAirport, Date fDate, LocalTime dTime, LocalTime bTime) {
         /*
          * Validate parameters 
          * validate that source and destination are not the same
