@@ -1,7 +1,7 @@
 /*
  * File: IllegalOperationException.java
  * Author: Ben Sutter
- * Date: May 29th, 2021
+ * Date: June 24th, 2022
  * Purpose: Create an exception that is triggered when a reservation cancellation or completion is not finalized.
  */
 
@@ -16,8 +16,8 @@ public class IllegalOperationException  extends RuntimeException {
     private String errorDetails;
 
     public String toString() {
-      // Generate a meaningful message that helps give a further explanation of what caused the exception
-      return null;
+      return "Error attempting " + attemptedOperation + "\nAccount ID: " + accountID 
+                + "\nReservation Number: " + attemptedOperation + "\nDetails: " + errorDetails;
     }
 
     public IllegalOperationException(String attemptOp, String accountID, String resNum, String errorDetails) {

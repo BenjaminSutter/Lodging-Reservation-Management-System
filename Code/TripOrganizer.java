@@ -1,7 +1,7 @@
 /*
  * File: TripOrganizer.java
  * Author: Ben Sutter
- * Date: May 28th, 2021
+ * Date: June 24th, 2022
  * Purpose: UI to help organize a trip
  * Heavily based off of example skeleton code provided.
  */
@@ -51,10 +51,8 @@ public class TripOrganizer {
 
     // delete reservation matching conf number from currently loaded trip
     public void deleteReservation(String confirmationNumber) {
-        /*
-         * validate trip[ is loaded
-         * trip.deleteReservation(confirmationNumber);
-         */
+
+        
     }
 
     // delete the currently loaded Trip and its file (value smust match)
@@ -65,13 +63,17 @@ public class TripOrganizer {
          * delete file
          * make trip=null
          */
+        
+        if(trip == null){
+            throw new IllegalArgumentException("Failed to delete trip, no trip is loaded");
+        }
     }
 
     // load new Trip from the passed in object (close the currently loaded Trip)
     public void createNewTrip(Trip trip) {
-        /*
-         * validate trip parameter
-         * assign parameter to attribute
-         */
+        if(trip == null){
+            throw new IllegalArgumentException("Failed to delete trip, no trip is loaded");
+        }
+        this.trip = trip;
     }
 }

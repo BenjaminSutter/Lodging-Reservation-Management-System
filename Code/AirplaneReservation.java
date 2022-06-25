@@ -1,11 +1,13 @@
 /*
  * File: AirplaneReservation.java
  * Author: Ben Sutter
- * Date: May 28th, 2021
+ * Date: May 28th, 2022
  * Purpose: Extend the reservation class to add ability to book an airplane reservation
  * Heavily based off of example skeleton code provided.
  */
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -27,6 +29,17 @@ public class AirplaneReservation extends Reservation {
     public AirplaneReservation(String conNum, String phoneNum, String aline, String sAirport, 
             String dAirport, Date fDate, LocalTime dTime, LocalTime bTime) {
         super(conNum, phoneNum);
+        
+        // No need to check if conNum or phoneNum are valid because parent constructor already does that
+        if (aline.isBlank() || sAirport.isBlank() || dAirport.isBlank()
+            || fDate == null || dTime == null || bTime == null)
+        {
+            throw new IllegalArgumentException("Failed to update airplane reservation, blank or null values are not allowed");
+        }
+        
+        if (sAirport.equalsIgnoreCase(dAirport)) {
+            throw new SameAirportException(dAirport);
+    	}
 
         this.airline = aline;
         this.sourceAirport = sAirport;
@@ -39,15 +52,57 @@ public class AirplaneReservation extends Reservation {
     // Construct an AirplaneReservation object from a string representation
     public AirplaneReservation(String line) {
         super(line);
+        
+        try 
+        {
+        
+        airline = line.substring(line.indexOf("<airline>") + 9, line.indexOf("</airline>"));
+        sourceAirport = line.substring(line.indexOf("<source_airport>") + 16, line.indexOf("</source_airport>"));
+        destinationAirport = line.substring(line.indexOf("<destination_airport>") + 21, line.indexOf("</destination_airport>"));
+        String fDate = line.substring(line.indexOf("<flight_date>") + 13, line.indexOf("</flight_date>"));
+        String bTime = line.substring(line.indexOf("<departure_time>") + 16, line.indexOf("</departure_time>"));
+        String dTime = line.substring(line.indexOf("<boarding_time>") + 15, line.indexOf("</boarding_time>"));
+
+        // Ensure no blank values were supplied
+        if (airline.isBlank() || sourceAirport.isBlank() || destinationAirport.isBlank() 
+            || fDate.isBlank() || bTime.isBlank() || dTime.isBlank())
+        {
+            throw new IllegalArgumentException("Blank values are not allowed for an airplane reservation.");
+        }
+        
+        // Parse the dates
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        flightDate = formatter.parse(fDate);
+        
+        // Parse the times
+        departureTime = LocalTime.parse(dTime);
+        boardingTime = LocalTime.parse(bTime);
+        
+        } catch (ParseException e) {
+            System.out.println("Failed to parse Airplane Reservation: " + e.getMessage());
+        }
+    
     }
     
     // Update reservation data using passed in parameters
     public void updateAirplaneReservation(String aline, String sAirport, String dAirport, Date fDate, LocalTime dTime, LocalTime bTime) {
-        /*
-         * Validate parameters 
-         * validate that source and destination are not the same
-         * Assign parameters's values to attributes
-         */
+        
+        if (aline.isBlank() || sAirport.isBlank() || dAirport.isBlank()
+            || fDate == null || dTime == null || bTime == null)
+        {
+            throw new IllegalArgumentException("Failed to update airplane reservation, blank or null values are not allowed");
+        }
+        
+        if (sAirport.equalsIgnoreCase(dAirport)) {
+            throw new SameAirportException(dAirport);
+    	}
+        
+        this.airline = aline;
+        this.sourceAirport = sAirport;
+        this.destinationAirport = dAirport;
+        this.flightDate = fDate;
+        this.departureTime = dTime;
+        this.boardingTime = bTime;
     }
 
     public String getAirline() {
@@ -76,32 +131,58 @@ public class AirplaneReservation extends Reservation {
 
     // Returns an XML formatted String representation of the object
     public String toString() {
-        /*
-         * return "<airplane>" +  super.toString() + "<airline>" + airline + ... + "</airplane>";  
-         */
-        return null;
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        
+        return "\n<airplane>" + 
+                super.toString() +
+                "\n\t<airline>" + airline + "</airline>" +
+                "\n\t<source_airport>" + sourceAirport + "</tsource_airport>" +
+                "\n\t<destination_airport>" + destinationAirport + "</destination_airport>" +
+                "\n\t<flight_date>" + formatter.format(flightDate) + "</flight_date>" +
+                "\n\t<departure_time>" + departureTime + "</flight_date>" +
+                "\n\t<boarding_time>" + boardingTime + "</boarding_time>" +
+                "\n</<airplane>>";  
     }
 
-    // calculate and return the distance between source and destination airport
+    // Calculate and return the distance between source and destination airport
     public Integer airportDistance() {
-        /*
-         * check the combination of source and destination and return that value
-         * e.g. if source=IAD & destination=ORL return 723
-         */
+        
+        if (((sourceAirport == "IAD") && (destinationAirport == "BWI")) ||
+            ((sourceAirport == "BWI") && (destinationAirport == "IAD"))) {
+            return 100;
+        }
+        else if (((sourceAirport == "BWI") && (destinationAirport == "NYC")) ||
+                 ((sourceAirport == "NYC") && (destinationAirport == "BWI"))) {
+            return 221;
+        }
+        else if (((sourceAirport == "IAD") && (destinationAirport == "NYC")) ||
+                ( (sourceAirport == "NYC") && (destinationAirport == "IAD"))) {
+            return 273;
+        }
+        else if (((sourceAirport == "IAD") && (destinationAirport == "ORL")) ||
+                 ((sourceAirport == "ORL") && (destinationAirport == "IAD"))) {
+            return 723;
+        }
+        else if (((sourceAirport == "ORL") && (destinationAirport == "BWI")) ||
+                 ((sourceAirport == "BWI") && (destinationAirport == "ORL"))) {
+            return 776;
+        }
+        else if (((sourceAirport == "ORL") && (destinationAirport == "NYC")) ||
+                 ((sourceAirport == "NYC") && (destinationAirport == "ORL"))) {
+            return 842;
+        }
+        
         return 0;
     }
 
-    //calculate and return the reservation's price
+    // Calculate and return the reservation's price
     public float calculatePrice() {
-        /*
-         * return airportDistance() * 2;  (round trip value)
-         */
-        return 0.0f;
+        return airportDistance() * 2;  //(round trip value)
     }
 
     // Instantiate a copy of the current object and return it
     public AirplaneReservation clone() {
-        return new AirplaneReservation(this.confirmationNumber, this.contractPhoneNumber, this.airline, 
+        return new AirplaneReservation(this.confirmationNumber, this.contactPhoneNumber, this.airline, 
                 this.sourceAirport, this.destinationAirport, this.flightDate, this.departureTime, this.boardingTime);
     }
     

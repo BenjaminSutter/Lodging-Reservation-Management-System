@@ -1,13 +1,18 @@
 /*
  * File: Trip.java
  * Author: Ben Sutter
- * Date: May 28th, 2021
+ * Date: June 24th, 2022
  * Purpose: The trip object is what connects all of the classes together and allow a user to book a trip (vaction/business/etc)
  * Heavily based off of example skeleton code provided.
  */
 
+import java.io.File;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Vector;
 import java.util.Date;
+import java.util.List;
 
 public class Trip {
 
@@ -22,9 +27,18 @@ public class Trip {
     private Date endDate;
 
       // Construct a Trip object and validate the integrity of the parameters
-    public Trip(Vector <Reservation>  reservations, Person person, String theme, Date startDate, Date endDate) {
-        this.reservations = reservations;
-        this.organizer = organizer;
+    public Trip(Reservation reservation, Person person, String theme, Date startDate, Date endDate) {
+        
+        // Ensure no blank or invalid values were supplied
+        if (reservation == null || person == null || theme.isBlank()
+            || startDate == null || endDate == null)
+        {
+            throw new IllegalArgumentException("Failed to create trip, blank or null values are not allowed");
+        }
+        
+        reservations = new Vector<Reservation>();  // create a Vector object for reservations
+        reservations.add(reservation);  // add reservation
+        this.organizer = person;
         this.theme = theme;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -32,7 +46,41 @@ public class Trip {
     
     // Create a trip object from the XML representation stored in a file
     public Trip(String fileName) {
-        // Make sure file is valid
+        
+        if (fileName.isBlank())
+        {
+            throw new IllegalArgumentException("Failed to create trip from file, file name was blank");
+        }
+        
+        // Ensure file exists
+        File f = new File(fileName);
+        if(!f.exists() || f.isDirectory()) { 
+            throw new IllegalLoadException(true, fileName, "123");
+        }
+        
+        try
+        {
+            // Read in the whole XML file
+            List<String> lines = Files.readAllLines(Paths.get("file"), StandardCharsets.UTF_8);
+            
+            for (String line : lines)
+            {
+                if (line.contains("<trip>"))
+                {
+                    theme = line.substring(line.indexOf("<trip>") + 6, line.indexOf("</trip>"));
+                }
+                
+                // TODO: Parse the organizer
+                
+                // TODO: Parse each reservation (look for start and end tags)
+                
+            }
+            
+        } catch(Exception e) {
+            System.out.println("Failed to parse trip file: " + e.getMessage());
+        }
+        // TODO
+        // Read in all lines of the file
     }
 
     public Vector  <Reservation> getReservations() {
@@ -54,6 +102,12 @@ public class Trip {
     }
 
     public void setOrganizer(Person organizer) {
+        
+        if (organizer == null)
+        {
+            throw new IllegalArgumentException("Failed to set organizer for trip, null is not allowed");
+        }
+        
         this.organizer = organizer;
     }
 
@@ -62,6 +116,12 @@ public class Trip {
     }
 
     public void setTheme(String theme) {
+        
+        if (theme.isBlank())
+        {
+            throw new IllegalArgumentException("Failed to set theme for trip, theme was blank");
+        }
+        
         this.theme = theme;
     }
 
@@ -70,6 +130,12 @@ public class Trip {
     }
 
     public void setStartDate(Date startDate) {
+        
+        if (startDate == null)
+        {
+            throw new IllegalArgumentException("Failed to set start date for trip, null is not allowed");
+        }
+        
         this.startDate = startDate;
     }
 
@@ -78,6 +144,12 @@ public class Trip {
     }
 
     public void setEndDate(Date endDate) {
+        
+        if (endDate == null)
+        {
+            throw new IllegalArgumentException("Failed to set end date for trip, null is not allowed");
+        }
+        
         this.endDate = endDate;
     }
 

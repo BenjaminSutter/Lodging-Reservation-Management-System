@@ -1,11 +1,13 @@
 /*
  * File: RentalCarReservation.java
  * Author: Ben Sutter
- * Date: May 28th, 2021
+ * Date: June 24th, 2022
  * Purpose: Extend the reservation class to add ability to book a car reservation
  * Heavily based off of example skeleton code provided.
  */
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class RentalCarReservation extends Reservation {
@@ -14,7 +16,7 @@ public class RentalCarReservation extends Reservation {
 
     private String model;
 
-    private int year;
+    private String year;
 
     private Date scheduledPickUp;
 
@@ -28,15 +30,22 @@ public class RentalCarReservation extends Reservation {
   
     // Construct a RentalCarReservation object and validate the integrity of the parameters
     public RentalCarReservation(String conNum, String phoneNum, String make, String mod, 
-            int year, Date sPickup, Date sDropOff, Date aPickup, Date aDropOff, float wind) {
+            String year, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
         super(conNum, phoneNum);
+        
+        // No need to check if conNum or phoneNum are valid because parent constructor already does that
+        if (make.isBlank() || mod.isBlank() || year.isBlank() || sPickUp == null
+             || sDropOff == null || aPickUp == null || aDropOff == null)
+        {
+            throw new IllegalArgumentException("Failed to create rental car reservation, blank or null values are not allowed");
+        }
 
         this.make = make;
         this.model = mod;
         this.year = year;
-        this.scheduledPickUp = sPickup;
+        this.scheduledPickUp = sPickUp;
         this.scheduledDropOff = sDropOff;
-        this.actualPickUp = aPickup;
+        this.actualPickUp = aPickUp;
         this.actualDropOff = aDropOff;
         this.window = wind;
     }
@@ -44,14 +53,59 @@ public class RentalCarReservation extends Reservation {
     // Construct a RentalCarReservation object from a string representation
     public RentalCarReservation(String line) {
         super(line);
+        
+        try 
+        {
+        
+        make = line.substring(line.indexOf("<make>") + 6, line.indexOf("</make>"));
+        model = line.substring(line.indexOf("<model>") + 7, line.indexOf("</model>"));
+        year = line.substring(line.indexOf("<year>") + 6, line.indexOf("</year>"));
+        String sPickUp = line.substring(line.indexOf("<scheduled_pick_up>") + 19, line.indexOf("</scheduled_pick_up>"));
+        String sDropOff = line.substring(line.indexOf("<scheduled_drop_off>") + 20, line.indexOf("</scheduled_drop_off>"));
+        String aPickUp = line.substring(line.indexOf("<actual_pick_up>") + 16, line.indexOf("</actual_pick_up>"));
+        String aDropOff = line.substring(line.indexOf("<actual_drop_off>") + 17, line.indexOf("</actual_drop_off>"));
+        String win = line.substring(line.indexOf("<window>") + 8, line.indexOf("</window>"));
+
+        // Ensure no blank values were supplied
+        if (make.isBlank() || model.isBlank() || year.isBlank() || sPickUp.isBlank()
+             || sDropOff.isBlank() || aPickUp.isBlank() || aDropOff.isBlank() || win.isBlank())
+        {
+            throw new IllegalArgumentException("Blank values are not allowed for an rental car reservation.");
+        }
+        
+        // Parse the dates
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        scheduledPickUp = formatter.parse(sPickUp);
+        scheduledDropOff = formatter.parse(sDropOff);
+        actualPickUp = formatter.parse(aPickUp);
+        actualDropOff = formatter.parse(aDropOff);
+        
+        // Parse the window
+        window = Float.parseFloat(win);
+        
+        } catch (ParseException e) {
+            System.out.println("Failed to parse rental car Reservation: " + e.getMessage());
+        }
+        
     }
     
     // update reservation data using passed in parameters
-    public void updateRentalCarReservation(String mak, String mod, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
-        /*
-         * Validate parameters 
-         * Assign parameters's values to attributes
-         */
+    public void updateRentalCarReservation(String mak, String mod, String year, Date sPickUp, Date sDropOff, Date aPickUp, Date aDropOff, float wind) {
+        
+        if (make.isBlank() || mod.isBlank() || year.isBlank() || sPickUp == null
+             || sDropOff == null || aPickUp == null || aDropOff == null)
+        {
+            throw new IllegalArgumentException("Failed to update rental car reservation, blank or null values are not allowed");
+        }
+
+        this.make = make;
+        this.model = mod;
+        this.year = year;
+        this.scheduledPickUp = sPickUp;
+        this.scheduledDropOff = sDropOff;
+        this.actualPickUp = aPickUp;
+        this.actualDropOff = aDropOff;
+        this.window = wind;
     }
 
     public String getMake() {
@@ -62,7 +116,7 @@ public class RentalCarReservation extends Reservation {
         return model;
     }
 
-    public int getYear() {
+    public String getYear() {
         return year;
     }
 
@@ -88,8 +142,19 @@ public class RentalCarReservation extends Reservation {
 
     // Returns an XML formatted String representation of the object
     public String toString() {
-        // return "<rentalcar>" + super.toString() + "<make>" + make + ... "</rentalcar>";
-        return null;
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        
+        return "<rental_car>" +
+               super.toString() +
+                "<make>" + make + "</make>" +
+                "<model>" + model + "</model>" +
+                "<year>" + year + "</year>" +
+                "<scheduled_pick_up>" + formatter.format(scheduledPickUp) + "</scheduled_pick_up>" +
+                "<scheduled_drop_off>" + formatter.format(scheduledDropOff) + "</scheduleddropoff>" +
+                "<actual_pick_up>" + formatter.format(actualPickUp) + "</actual_pick_up>" +
+                "<actual_drop_off>" + formatter.format(actualDropOff) + "</actual_drop_off>" +
+                "<window>" + window + "</window>" +
+                "</rental_car>";
     }
 
     //calculate and return the reservation's price
@@ -103,7 +168,7 @@ public class RentalCarReservation extends Reservation {
 
     // Instantiate a copy of the current object and return it
     public RentalCarReservation clone() {
-        return new RentalCarReservation(this.confirmationNumber, this.contractPhoneNumber, this.make, 
+        return new RentalCarReservation(this.confirmationNumber, this.contactPhoneNumber, this.make, 
                 this.model, this.year, this.scheduledPickUp, this.scheduledDropOff, this.actualPickUp, this.actualDropOff, this.window);
     }
     

@@ -1,7 +1,7 @@
 /*
  * File: SameAirportException.java
  * Author: Ben Sutter
- * Date: May 29th, 2021
+ * Date: June 24th, 2022
  * Purpose: Create an exception that is triggered when an AirplaneReservation is 
             being constructed if source/destination airports are the same
  */
@@ -11,8 +11,7 @@ public class SameAirportException extends RuntimeException {
     private String airport;
 
     public String toString() {
-      // Generate a meaningful message that helps give a further explanation of what caused the exception
-      return null;
+        return "Failed to create or update airplane reservation because values for source and destination airport were the same (" + airport + ")";
     }
 
     public SameAirportException(String airport) {
