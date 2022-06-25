@@ -38,9 +38,9 @@ public class Person {
         try 
         {
         
-        firstName = line.substring(line.indexOf("<airline>") + 9, line.indexOf("</airline>"));
-        lastName = line.substring(line.indexOf("<source_airport>") + 16, line.indexOf("</source_airport>"));
-        String birthDate = line.substring(line.indexOf("<destination_airport>") + 21, line.indexOf("</destination_airport>"));
+        firstName = line.substring(line.indexOf("<first_name>") + 12, line.indexOf("</first_name>"));
+        lastName = line.substring(line.indexOf("<last_name>") + 11, line.indexOf("</last_name>"));
+        String birthDate = line.substring(line.indexOf("<date_of_birth>") + 15, line.indexOf("</date_of_birth>"));
 
 
         // Ensure no blank values were supplied

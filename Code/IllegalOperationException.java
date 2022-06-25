@@ -9,23 +9,15 @@ public class IllegalOperationException  extends RuntimeException {
 
     private String attemptedOperation;
 
-    private String accountID;
-
-    private String reservationNumber;
-
     private String errorDetails;
 
     public String toString() {
-      return "Error attempting " + attemptedOperation + "\nAccount ID: " + accountID 
-                + "\nReservation Number: " + attemptedOperation + "\nDetails: " + errorDetails;
+      return "Error attempting " + attemptedOperation + "\nDetails: " + errorDetails;
     }
 
-    public IllegalOperationException(String attemptOp, String accountID, String resNum, String errorDetails) {
-        super("Error attempting " + attemptOp + "\nAccount ID: " + accountID 
-                + "\nReservation Number: " + resNum + "\nDetails: " + errorDetails);
+    public IllegalOperationException(String attemptOp, String errorDetails) {
+        super("Error attempting " + attemptOp + "\nDetails: " + errorDetails);
         this.attemptedOperation = attemptOp;
-        this.accountID = accountID;
-        this.reservationNumber = resNum;
         this.errorDetails = errorDetails;
     }
 

@@ -126,14 +126,10 @@ public class HotelReservation extends Reservation {
                 "\n</hotel>";
     }
 
-    //calculate and return the reservation's price
+    // Calculate and return the reservation's price
     public float calculatePrice() {
-        /*
-         * calculate number of days for the reservation
-         * return days * 100
-         * 
-         */
-        return 0.0f;
+        long difference = checkOut.getTime() - checkIn.getTime();
+        return (difference / 1000 * 60 * 60 * 24 ) * 100; // Days * 100
     }
 
     // Instantiate a copy of the current object and return it

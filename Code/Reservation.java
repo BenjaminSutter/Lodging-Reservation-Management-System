@@ -65,9 +65,7 @@ public abstract class Reservation {
     }
 
     // Calculate the price of the reservation
-    public float calculatePrice() {
-        return 0.0f;
-    }
+    public abstract float calculatePrice();
 
     // Returns an XML formatted String representation of the object
     public String toString() {

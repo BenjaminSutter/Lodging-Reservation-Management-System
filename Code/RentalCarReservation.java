@@ -157,13 +157,10 @@ public class RentalCarReservation extends Reservation {
                 "</rental_car>";
     }
 
-    //calculate and return the reservation's price
+    // Calculate and return the reservation's price
     public float calculatePrice() {
-        /*
-         * calculate number of days
-         * return days * 23
-         */
-        return 0.0f;
+        long difference = scheduledPickUp.getTime() - actualDropOff.getTime();
+        return (difference / 1000 * 60 * 60 * 24 ) * 23; // Days * 23. Charge them even if they didn't pick it up on time (it's in the contract)
     }
 
     // Instantiate a copy of the current object and return it
