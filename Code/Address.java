@@ -22,7 +22,7 @@ public class Address {
     public Address(String street, String city, String state, String zip, String phoneNum) {
         
         // Ensure no blank values were supplied
-        if (street.isBlank() || city.isBlank() || state.isBlank() || zip.isBlank() || phoneNumber.isBlank())
+        if (street.isBlank() || city.isBlank() || state.isBlank() || zip.isBlank() || phoneNum.isBlank())
         {
             throw new IllegalArgumentException("Blank values are not allowed for an address.");
         }

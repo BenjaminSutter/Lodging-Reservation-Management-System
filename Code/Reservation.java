@@ -69,9 +69,9 @@ public abstract class Reservation {
 
     // Returns an XML formatted String representation of the object
     public String toString() {
-    	return  "\t<confirmation_number>" + confirmationNumber + "</confirmation_number>" +
-                "\t<contact_number>" + contactPhoneNumber + "</contact_number>" +
-                "\t<reservation_number>" + reservationNumber + "</reservation_number>"; 
+    	return  "\n\t<confirmation_number>" + confirmationNumber + "</confirmation_number>" +
+                "\n\t<contact_number>" + contactPhoneNumber + "</contact_number>" +
+                "\n\t<reservation_number>" + reservationNumber + "</reservation_number>"; 
     }
 
     // Instantiate a copy of the current object and return it

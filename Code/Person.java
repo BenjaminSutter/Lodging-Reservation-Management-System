@@ -24,7 +24,7 @@ public class Person {
         // Ensure no blank values were supplied
         if (firstName.isBlank() || lastName.isBlank() || dateOfBirth == null)
         {
-            throw new IllegalArgumentException("Blank values are not allowed for an address.");
+            throw new IllegalArgumentException("Blank values are not allowed for a person.");
         }
         
         this.firstName = firstName;
@@ -105,10 +105,12 @@ public class Person {
 
     // Returns an XML formatted String representation of the object
     public String toString() {
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        
         return "\n<person>" + 
                "\n\t<first_name>" + firstName + "</first_name>" + 
                "\n\t<last_name>" + lastName + "</last_name>" + 
-               "\n\t<date_of_birth>" + dateOfBirth + "</date_of_birth>" + 
+               "\n\t<date_of_birth>" + formatter.format(dateOfBirth) + "</date_of_birth>" + 
                "\n</person>";
     }
 

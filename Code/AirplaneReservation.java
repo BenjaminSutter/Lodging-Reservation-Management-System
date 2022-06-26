@@ -34,7 +34,7 @@ public class AirplaneReservation extends Reservation {
         if (aline.isBlank() || sAirport.isBlank() || dAirport.isBlank()
             || fDate == null || dTime == null || bTime == null)
         {
-            throw new IllegalArgumentException("Failed to update airplane reservation, blank or null values are not allowed");
+            throw new IllegalArgumentException("Failed to create airplane reservation, blank or null values are not allowed");
         }
         
         if (sAirport.equalsIgnoreCase(dAirport)) {
@@ -136,39 +136,39 @@ public class AirplaneReservation extends Reservation {
         return "\n<airplane>" + 
                 super.toString() +
                 "\n\t<airline>" + airline + "</airline>" +
-                "\n\t<source_airport>" + sourceAirport + "</tsource_airport>" +
+                "\n\t<source_airport>" + sourceAirport + "</source_airport>" +
                 "\n\t<destination_airport>" + destinationAirport + "</destination_airport>" +
                 "\n\t<flight_date>" + formatter.format(flightDate) + "</flight_date>" +
-                "\n\t<departure_time>" + departureTime + "</flight_date>" +
+                "\n\t<departure_time>" + departureTime + "</departure_time>" +
                 "\n\t<boarding_time>" + boardingTime + "</boarding_time>" +
-                "\n</<airplane>>";  
+                "\n</airplane>";  
     }
 
     // Calculate and return the distance between source and destination airport
     public Integer airportDistance() {
         
-        if (((sourceAirport == "IAD") && (destinationAirport == "BWI")) ||
-            ((sourceAirport == "BWI") && (destinationAirport == "IAD"))) {
+                if (((sourceAirport.contains("IAD")) && (destinationAirport.contains("BWI"))) ||
+            ((sourceAirport.contains("BWI")) && (destinationAirport.contains("IAD")))) {
             return 100;
         }
-        else if (((sourceAirport == "BWI") && (destinationAirport == "NYC")) ||
-                 ((sourceAirport == "NYC") && (destinationAirport == "BWI"))) {
+        else if (((sourceAirport.contains("BWI")) && (destinationAirport.contains("NYC"))) ||
+                 ((sourceAirport.contains("NYC")) && (destinationAirport.contains("BWI")))) {
             return 221;
         }
-        else if (((sourceAirport == "IAD") && (destinationAirport == "NYC")) ||
-                ( (sourceAirport == "NYC") && (destinationAirport == "IAD"))) {
+        else if (((sourceAirport.contains("IAD")) && (destinationAirport.contains("NYC"))) ||
+                ( (sourceAirport.contains("NYC")) && (destinationAirport.contains("IAD")))) {
             return 273;
         }
-        else if (((sourceAirport == "IAD") && (destinationAirport == "ORL")) ||
-                 ((sourceAirport == "ORL") && (destinationAirport == "IAD"))) {
+        else if (((sourceAirport.contains("IAD")) && (destinationAirport.contains("ORL"))) ||
+                 ((sourceAirport.contains("ORL")) && (destinationAirport.contains("IAD")))) {
             return 723;
         }
-        else if (((sourceAirport == "ORL") && (destinationAirport == "BWI")) ||
-                 ((sourceAirport == "BWI") && (destinationAirport == "ORL"))) {
+        else if (((sourceAirport.contains("ORL")) && (destinationAirport.contains("BWI"))) ||
+                 ((sourceAirport.contains("BWI")) && (destinationAirport.contains("ORL")))) {
             return 776;
         }
-        else if (((sourceAirport == "ORL") && (destinationAirport == "NYC")) ||
-                 ((sourceAirport == "NYC") && (destinationAirport == "ORL"))) {
+        else if (((sourceAirport.contains("ORL")) && (destinationAirport.contains("NYC"))) ||
+                 ((sourceAirport.contains("NYC")) && (destinationAirport.contains("ORL")))) {
             return 842;
         }
         

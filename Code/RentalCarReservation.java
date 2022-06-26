@@ -144,23 +144,23 @@ public class RentalCarReservation extends Reservation {
     public String toString() {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         
-        return "<rental_car>" +
+        return "\n<rental_car>" +
                super.toString() +
-                "<make>" + make + "</make>" +
-                "<model>" + model + "</model>" +
-                "<year>" + year + "</year>" +
-                "<scheduled_pick_up>" + formatter.format(scheduledPickUp) + "</scheduled_pick_up>" +
-                "<scheduled_drop_off>" + formatter.format(scheduledDropOff) + "</scheduleddropoff>" +
-                "<actual_pick_up>" + formatter.format(actualPickUp) + "</actual_pick_up>" +
-                "<actual_drop_off>" + formatter.format(actualDropOff) + "</actual_drop_off>" +
-                "<window>" + window + "</window>" +
-                "</rental_car>";
+                "\n\t<make>" + make + "</make>" +
+                "\n\t<model>" + model + "</model>" +
+                "\n\t<year>" + year + "</year>" +
+                "\n\t<scheduled_pick_up>" + formatter.format(scheduledPickUp) + "</scheduled_pick_up>" +
+                "\n\t<scheduled_drop_off>" + formatter.format(scheduledDropOff) + "</scheduled_drop_off>" +
+                "\n\t<actual_pick_up>" + formatter.format(actualPickUp) + "</actual_pick_up>" +
+                "\n\t<actual_drop_off>" + formatter.format(actualDropOff) + "</actual_drop_off>" +
+                "\n\t<window>" + window + "</window>" +
+                "\n</rental_car>";
     }
 
     // Calculate and return the reservation's price
     public float calculatePrice() {
-        long difference = scheduledPickUp.getTime() - actualDropOff.getTime();
-        return (difference / 1000 * 60 * 60 * 24 ) * 23; // Days * 23. Charge them even if they didn't pick it up on time (it's in the contract)
+        long difference = actualDropOff.getTime() - scheduledPickUp.getTime();
+        return (difference / (1000 * 60 * 60 * 24) ) * 23; // Days * 23. Charge them even if they didn't pick it up on time (it's in the contract)
     }
 
     // Instantiate a copy of the current object and return it

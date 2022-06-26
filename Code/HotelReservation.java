@@ -68,7 +68,7 @@ public class HotelReservation extends Reservation {
         // Parse the dates
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         checkIn = formatter.parse(in);
-        checkIn = formatter.parse(out);
+        checkOut = formatter.parse(out);
         
         } catch (ParseException e) {
             System.out.println("Failed to parse hotel Reservation: " + e.getMessage());
@@ -129,7 +129,7 @@ public class HotelReservation extends Reservation {
     // Calculate and return the reservation's price
     public float calculatePrice() {
         long difference = checkOut.getTime() - checkIn.getTime();
-        return (difference / 1000 * 60 * 60 * 24 ) * 100; // Days * 100
+        return (difference / (1000 * 60 * 60 * 24) ) * 100; // Days * 100
     }
 
     // Instantiate a copy of the current object and return it

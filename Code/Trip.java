@@ -12,7 +12,7 @@ import java.io.FileWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.Vector;
 import java.util.Date;
 import java.util.List;
@@ -63,8 +63,11 @@ public class Trip {
         
         try
         {
+            reservations = new Vector<Reservation>();  // create a Vector object for reservations
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            
             // Read in the whole XML file, line by line (the file will be formatted)
-            List<String> lines = Files.readAllLines(Paths.get("file"), StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(Paths.get(fileName), StandardCharsets.UTF_8);
             
             String workingItem = "";
             String currentTag = "";
@@ -72,25 +75,38 @@ public class Trip {
 
             for (String line : lines)
             {
-                if (line.contains("<trip>"))
-                {
+                if (line.contains("<trip>")) {
                     theme = line.substring(line.indexOf("<trip>") + 6, line.indexOf("</trip>"));
+                }
+                else if (line.contains("<start_date>"))
+                {
+                    String start = line.substring(line.indexOf("<start_date>") + 12, line.indexOf("</start_date>"));
+                    startDate = formatter.parse(start);
+                }
+                else if (line.contains("<end_date>"))
+                {
+                    String end = line.substring(line.indexOf("<end_date>") + 10, line.indexOf("</end_date>"));
+                    endDate = formatter.parse(end);
                 }
                 else if (line.contains("</person>")) { // Initialize the organizer and turn off flag
                     organizer = new Person(workingItem);
                     concatonateTags = false;
+                    workingItem = "";
                 }
                 else if (line.contains("</airplane>")) { // Parse the airplane reservation and turn off flag
                     reservations.add(new AirplaneReservation(workingItem));
                     concatonateTags = false;
+                    workingItem = "";
                 }
                 else if (line.contains("</hotel>")) { // Parse the hotel reservation and turn off flag
                     reservations.add(new HotelReservation(workingItem));
                     concatonateTags = false;
+                    workingItem = "";
                 }
                 else if (line.contains("</rental_car>")) { // Parse the rental car reservation and turn off flag
                     reservations.add(new RentalCarReservation(workingItem));
                     concatonateTags = false;
+                    workingItem = "";
                 }
                 else if (line.contains("<person>") || line.contains("<airplane>") || line.contains("<hotel>") || line.contains("<rental_car>"))
                 {
@@ -203,10 +219,10 @@ public class Trip {
         
         int index = findReservationIndex(reservation.getConfirmationNumber());
         
-        if (index > 0) // Index above 0 means match was found, so don't add duplicate
+        if (index >= 0) // Index above or equal to 0 means match was found, so don't add duplicate
         {
-            // If not found, notify user
-            throw new DuplicateObjectException(organizer.getFullName(), reservation.getConfirmationNumber(), "Reservation already exists");
+            // If  found, notify user
+            throw new DuplicateObjectException("Duplicate Reservation Found", reservation.getConfirmationNumber(), "Reservation already exists");
         }
         
         reservations.add(reservation); // Update the reservation
@@ -236,7 +252,12 @@ public class Trip {
     // Save the Trip information to the passed in file
     public void saveToFile(String fileName) throws Exception {
         
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        
         String tripString = "<trip>" + theme + "</trip>";
+        
+        tripString += "\n<start_date>" + formatter.format(startDate) + "</start_date>";
+        tripString += "\n<end_date>" + formatter.format(startDate) + "</end_date>";
         
         tripString += organizer.toString(); // Add the organizer tags
         
